@@ -85,7 +85,7 @@ public class UserController {
      * 登录
      * @param user
      * @return
-     */
+     *//*
     @ResponseBody
     @RequestMapping(value = "/login", produces = {"application/json;charset=UTF-8"})
     public ResultDto login(User user){
@@ -106,6 +106,6 @@ public class UserController {
             log.error("UserController.login is fial!");
         }
         return resultDto;
-    }
+    }*/
 
 }

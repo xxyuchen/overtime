@@ -1,7 +1,7 @@
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:8011/eureka/
+#eureka:
+  #client:
+    #serviceUrl:
+      #defaultZone: http://localhost:8011/eureka/
 server:
   port: 8013
 spring:
@@ -30,7 +30,15 @@ spring:
         testOnReturn: false
         poolPreparedStatements: true
         maxOpenPreparedStatements: 20
-
+    redis:
+          host: 127.0.0.1
+          port: 6379
+          timeout: 100
+          pool:
+            max-idle: 100
+            min-idle: 1
+            max-active: 1000
+            max-wait: 1000
 mybatis:
   mapper-locations: classpath:mapping/*.xml
   type-aliases-package: com.winter.model

@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @SpringBootApplication
-@EnableEurekaClient
+//@EnableEurekaClient
 @MapperScan("com.nancy.mapper")
 public class OvertimeApplication {
 	@Bean

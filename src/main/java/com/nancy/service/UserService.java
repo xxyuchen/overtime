@@ -11,4 +11,6 @@ public interface UserService {
     int insert(User user);
 
     User findByAttr(User user);
+
+    int update(User user);
 }

@@ -83,7 +83,7 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
                 .setExpiration(new Date(System.currentTimeMillis() + 60 * 60 * 24 * 1000))
                 .signWith(SignatureAlgorithm.HS512, "MyJwtSecret") //采用什么算法是可以自己选择的，不一定非要采用HS512
                 .compact();
-        res.addHeader("Authorization", "Bearer " + token);
+        res.addHeader("token", "Bearer" + token);
     }
 
     private Map<String, String> extraParameterMap(HttpServletRequest request) throws IOException {

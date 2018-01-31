@@ -1,5 +1,7 @@
 package com.nancy.security.filter;
 
+import com.alibaba.fastjson.JSONObject;
+import com.nancy.dto.ResultDto;
 import io.jsonwebtoken.Jwts;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -30,6 +32,11 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
         String header = request.getHeader("token");
 
         if (header == null || !header.startsWith("Bearer ")) {
+            ResultDto resultDto = new ResultDto();
+            resultDto.setCode(ResultDto.CODE_FAIL);
+            resultDto.setMsg("请先登录！");
+            response.setContentType("application/json;charset=UTF-8");
+            response.getWriter().write(JSONObject.toJSONString(resultDto));
             chain.doFilter(request, response);
             return;
         }

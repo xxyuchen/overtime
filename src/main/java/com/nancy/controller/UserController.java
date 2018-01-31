@@ -1,5 +1,6 @@
 package com.nancy.controller;
 
+import com.nancy.annotation.Submit;
 import com.nancy.dto.ResultDto;
 import com.nancy.model.User;
 import com.nancy.redis.RedisService;
@@ -39,11 +40,12 @@ public class UserController {
      * @param id
      * @return
      */
+    @Submit(name = "有标识")
     @ResponseBody
     @RequestMapping(value = "/selectById", produces = {"application/json;charset=UTF-8"})
     //(value = "users",key = "'id_'.concat(#root.args[0])")
     public ResultDto selectById(Integer id){
-        String key = "userId_"+id;
+        //String key = "userId_"+id;
         /*ValueOperations<String, Object> operations = redisTemplate.opsForValue();
         boolean hasKey = redisTemplate.hasKey(key);
         if (hasKey) {
@@ -51,10 +53,10 @@ public class UserController {
             log.info("从缓存中获取用户{}的信息",id);
             return resultDto;
         }*/
-        ResultDto db = (ResultDto) redisService.get(key);
+        /*ResultDto db = (ResultDto) redisService.get(key);
         if(null!=db){
             return db;
-        }
+        }*/
         ResultDto resultDto = new ResultDto();
         resultDto.setMsg(ResultDto.MESS_SUCC);
         resultDto.setCode(ResultDto.CODE_SUCC);
@@ -71,8 +73,8 @@ public class UserController {
         }
         // 插入缓存
         //operations.set(key, resultDto, 120, TimeUnit.SECONDS);
-        redisService.set(key,resultDto);
-        log.info("将用户{}信息存入缓存",id);
+        //redisService.set(key,resultDto);
+        //log.info("将用户{}信息存入缓存",id);
         return resultDto;
     }
 
@@ -111,32 +113,6 @@ public class UserController {
         return resultDto;
     }
     /**
-     * 登录
-     * @param user
-     * @return
-     *//*
-    @ResponseBody
-    @RequestMapping(value = "/login", produces = {"application/json;charset=UTF-8"})
-    public ResultDto login(User user){
-        ResultDto resultDto = new ResultDto();
-        resultDto.setMsg(ResultDto.MESS_SUCC);
-        resultDto.setCode(ResultDto.CODE_SUCC);
-        try {
-            User userH = userService.findByAttr(user);
-            if(null == userH){
-                resultDto.setMsg("密码错误");
-                resultDto.setCode(ResultDto.CODE_FAIL);
-                return resultDto;
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-            resultDto.setMsg(ResultDto.MESS_FAIL);
-            resultDto.setCode(ResultDto.CODE_FAIL);
-            log.error("UserController.login is fial!");
-        }
-        return resultDto;
-    }*/
-    /**
      * 编辑
      * @param user
      * @return
@@ -163,6 +139,20 @@ public class UserController {
         }
         return resultDto;
     }
-
+    /**
+     * 测试
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/demo", produces = {"application/json;charset=UTF-8"})
+    public ResultDto demo(){
+        ResultDto resultDto = new ResultDto();
+        resultDto.setMsg(ResultDto.MESS_SUCC);
+        resultDto.setCode(ResultDto.CODE_SUCC);
+        Map<String,Object> map = new HashMap<>(1);
+        map.put("data","测试接口");
+        resultDto.setData(map);
+        return resultDto;
+    }
 
 }

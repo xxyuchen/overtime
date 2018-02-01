@@ -1,5 +1,6 @@
 package com.nancy.model;
 
+import com.sun.istack.internal.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +11,7 @@ public class User implements Serializable{
 
     @Setter
     @Getter
+    @NotNull
     private Integer id;
 
     @Setter

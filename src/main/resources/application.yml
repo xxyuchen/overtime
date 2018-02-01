@@ -39,6 +39,10 @@ spring:
             min-idle: 1
             max-active: 1000
             max-wait: 1000
+    mvc:
+      throw-exception-if-no-handler-found: true
+    resources:
+      add-mappings: false
 mybatis:
   mapper-locations: classpath:mapping/*.xml
   type-aliases-package: com.winter.model

@@ -60,17 +60,10 @@ public class UserController {
         ResultDto resultDto = new ResultDto();
         resultDto.setMsg(ResultDto.MESS_SUCC);
         resultDto.setCode(ResultDto.CODE_SUCC);
-        try {
-            User user = userService.selectById(id);
-            Map<String,Object> map = new HashMap<>();
-            map.put("data",user);
-            resultDto.setData(map);
-        }catch (Exception e){
-            e.printStackTrace();
-            resultDto.setMsg(ResultDto.MESS_FAIL);
-            resultDto.setCode(ResultDto.CODE_FAIL);
-            log.error("UserController.selectById is fial!");
-        }
+        User user = userService.selectById(id);
+        Map<String,Object> map = new HashMap<>();
+        map.put("data",user);
+        resultDto.setData(map);
         // 插入缓存
         //operations.set(key, resultDto, 120, TimeUnit.SECONDS);
         //redisService.set(key,resultDto);
@@ -89,27 +82,21 @@ public class UserController {
         ResultDto resultDto = new ResultDto();
         resultDto.setMsg(ResultDto.MESS_SUCC);
         resultDto.setCode(ResultDto.CODE_SUCC);
-        try {
-            User userN = new User();
-            userN.setName(user.getName());
-            User userH = userService.findByAttr(userN);
-            if(null != userH){
-                resultDto.setMsg("用户已存在");
-                resultDto.setCode(ResultDto.CODE_FAIL);
-                return resultDto;
-            }
-            //user.setPwd(DigestUtils.md5DigestAsHex((user.getPassword()).getBytes()));
-            if(userService.insert(user)<=0){
-                resultDto.setMsg(ResultDto.MESS_FAIL);
-                resultDto.setCode(ResultDto.CODE_FAIL);
-                return resultDto;
-            }
-        }catch (Exception e){
-            e.printStackTrace();
+        User userN = new User();
+        userN.setName(user.getName());
+        User userH = userService.findByAttr(userN);
+        if(null != userH){
+            resultDto.setMsg("用户已存在");
+            resultDto.setCode(ResultDto.CODE_FAIL);
+            return resultDto;
+        }
+        //user.setPwd(DigestUtils.md5DigestAsHex((user.getPassword()).getBytes()));
+        if(userService.insert(user)<=0){
             resultDto.setMsg(ResultDto.MESS_FAIL);
             resultDto.setCode(ResultDto.CODE_FAIL);
-            log.error("UserController.signup is fial!");
+            return resultDto;
         }
+
         return resultDto;
     }
     /**
@@ -123,20 +110,14 @@ public class UserController {
         ResultDto resultDto = new ResultDto();
         resultDto.setMsg(ResultDto.MESS_SUCC);
         resultDto.setCode(ResultDto.CODE_SUCC);
-        try {
-            if(userService.update(user)<=0){
-                resultDto.setMsg(ResultDto.MESS_FAIL);
-                resultDto.setCode(ResultDto.CODE_FAIL);
-                return resultDto;
-            }
-            redisService.del("userId_"+user.getId());
-            log.info("删除用户{}缓存",user.getId());
-        }catch (Exception e){
-            e.printStackTrace();
+        if(userService.update(user)<=0){
             resultDto.setMsg(ResultDto.MESS_FAIL);
             resultDto.setCode(ResultDto.CODE_FAIL);
-            log.error("UserController.login is fial!");
+            return resultDto;
         }
+        redisService.del("userId_"+user.getId());
+        log.info("删除用户{}缓存",user.getId());
+
         return resultDto;
     }
     /**

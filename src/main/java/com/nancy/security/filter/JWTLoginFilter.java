@@ -2,6 +2,7 @@ package com.nancy.security.filter;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.nancy.dto.ResultDto;
 import org.apache.commons.io.IOUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nancy.model.User;
@@ -83,7 +84,12 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
                 .setExpiration(new Date(System.currentTimeMillis() + 60 * 60 * 24 * 1000))
                 .signWith(SignatureAlgorithm.HS512, "MyJwtSecret") //采用什么算法是可以自己选择的，不一定非要采用HS512
                 .compact();
+        ResultDto resultDto = new ResultDto();
+        resultDto.setCode(ResultDto.CODE_FAIL);
+        resultDto.setMsg("登录成功！");
+        res.setContentType("application/json;charset=UTF-8");
         res.addHeader("token", "Bearer" + token);
+        res.getWriter().write(JSONObject.toJSONString(resultDto));
     }
 
     private Map<String, String> extraParameterMap(HttpServletRequest request) throws IOException {
